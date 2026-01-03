@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routes - Safarihub Nairobi Transport Guide</title>
+    <link rel="stylesheet" href="routes.css">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/jpeg" href="safarihub-logo.jpeg">
+    <style>
+        /* Routes Page Specific Styles */
+        .routes-hero {
+            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)), url('https://images.unsplash.com/photo-1570125909232-eb263c188f7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .search-filters {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+        
+        .dark-mode .search-filters {
+            background: #2d3436;
+        }
+        
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .routes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .route-card-large {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .dark-mode .route-card-large {
+            background: #2d3436;
+        }
+        
+        .route-card-large:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .route-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+        }
+        
+        .route-number {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .route-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .route-subtitle {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        
+        .route-content {
+            padding: 1.5rem;
+        }
+        
+        .route-info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .dark-mode .route-info-row {
+            border-bottom-color: #404040;
+        }
+        
+        .route-info-row:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .info-item {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .info-label {
+            display: block;
+            color: var(--gray);
+            font-size: 0.8rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .info-value {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .dark-mode .info-value {
+            color: #f8f9fa;
+        }
+        
+        .route-stops {
+            margin-top: 1rem;
+        }
+        
+        .stops-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .dark-mode .stops-title {
+            color: #f8f9fa;
+        }
+        
+        .stops-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .stop-tag {
+            background: var(--light-gray);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            color: var(--dark);
+        }
+        
+        .dark-mode .stop-tag {
+            background: #404040;
+            color: #f8f9fa;
+        }
+        
+        .route-footer {
+            background: var(--light-gray);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dark-mode .route-footer {
+            background: #404040;
+        }
+        
+        .route-companies {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .company-tag {
+            background: var(--secondary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+        }
+        
+        .view-details-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .view-details-btn:hover {
+            background: #c0392b;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin: 3rem 0;
+        }
+        
+        .page-btn {
+            background: white;
+            border: 1px solid var(--light-gray);
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .dark-mode .page-btn {
+            background: #2d3436;
+            border-color: #404040;
+            color: #f8f9fa;
+        }
+        
+        .page-btn:hover {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+        
+        .page-numbers {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .page-number {
+            padding: 0.5rem 0.8rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .page-number.active {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .page-number:hover:not(.active) {
+            background: var(--light-gray);
+        }
+        
+        .dark-mode .page-number:hover:not(.active) {
+            background: #404040;
+        }
+        
+        .popular-zones {
+            margin: 3rem 0;
+        }
+        
+        .zones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .zone-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-decoration: none;
+            color: var(--dark);
+        }
+        
+        .dark-mode .zone-card {
+            background: #2d3436;
+            color: #f8f9fa;
+        }
+        
+        .zone-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .zone-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        
+        .zone-card:hover .zone-icon {
+            color: white;
+        }
+        
+        .zone-count {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .map-section {
+            margin: 3rem 0;
+        }
+        
+        .map-container {
+            background: var(--light-gray);
+            border-radius: var(--border-radius);
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dark-mode .map-container {
+            background: #404040;
+        }
+        
+        .map-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .map-placeholder {
+            text-align: center;
+            color: var(--primary);
+        }
+        
+        .dark-mode .map-placeholder {
+            color: #f8f9fa;
+        }
+        
+        .map-placeholder i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <img src="safarihub-logo.jpeg" alt="Safarihub Logo" width="40" height="40">
+                    <span class="logo-text">Safarihub</span>
+                </div>
+
+                <button class="menu-toggle" aria-label="Toggle navigation menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <nav class="nav-links">
+                    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                    <a href="routes.html" class="active"><i class="fas fa-route"></i> Routes</a>
+                    <a href="companies.html"><i class="fas fa-bus"></i> Companies</a>
+                    <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+                    <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+                </nav>
+
+                <button id="darkModeToggle" class="dark-toggle" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon"></i> <span>Dark Mode</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Routes Hero -->
+    <section class="routes-hero">
+        <div class="container">
+            <h1 class="hero-title">Nairobi Transport Routes</h1>
+            <p class="hero-subtitle">Find the perfect route for your journey across Nairobi</p>
+        </div>
+    </section>
+
+    <main class="container main-content">
+        <!-- Search & Filters -->
+        <section class="search-filters">
+            <h2 class="section-title">
+                <i class="fas fa-search"></i> Find Your Route
+            </h2>
+            
+            <div class="filter-row">
+                <div class="form-group">
+                    <label for="from-location">From</label>
+                    <select id="from-location">
+                        <option value="">Select starting point</option>
+                        <option value="cbd">CBD (Central Business District)</option>
+                        <option value="westlands">Westlands</option>
+                        <option value="rongai">Rongai</option>
+                        <option value="thika">Thika</option>
+                        <option value="kitengela">Kitengela</option>
+                        <option value="karen">Karen</option>
+                        <option value="langata">Lang'ata</option>
+                        <option value="kasarani">Kasarani</option>
+                        <option value="ruiru">Ruiru</option>
+                        <option value="embakasi">Embakasi</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="to-location">To</label>
+                    <select id="to-location">
+                        <option value="">Select destination</option>
+                        <option value="cbd">CBD (Central Business District)</option>
+                        <option value="westlands">Westlands</option>
+                        <option value="rongai">Rongai</option>
+                        <option value="thika">Thika</option>
+                        <option value="kitengela">Kitengela</option>
+                        <option value="karen">Karen</option>
+                        <option value="langata">Lang'ata</option>
+                        <option value="kasarani">Kasarani</option>
+                        <option value="ruiru">Ruiru</option>
+                        <option value="embakasi">Embakasi</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="route-type">Route Type</label>
+                    <select id="route-type">
+                        <option value="">All Types</option>
+                        <option value="matatu">Matatu</option>
+                        <option value="shuttle">Shuttle</option>
+                        <option value="bus">Bus</option>
+                        <option value="boda">Boda Boda</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="filter-row">
+                <div class="form-group">
+                    <label for="fare-range">Fare Range (KES)</label>
+                    <select id="fare-range">
+                        <option value="">Any Fare</option>
+                        <option value="0-50">0 - 50</option>
+                        <option value="51-100">51 - 100</option>
+                        <option value="101-150">101 - 150</option>
+                        <option value="151-200">151 - 200</option>
+                        <option value="200+">200+</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="travel-time">Travel Time</label>
+                    <select id="travel-time">
+                        <option value="">Any Time</option>
+                        <option value="0-30">Under 30 min</option>
+                        <option value="31-60">30-60 min</option>
+                        <option value="61-120">1-2 hours</option>
+                        <option value="120+">Over 2 hours</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="sort-by">Sort By</label>
+                    <select id="sort-by">
+                        <option value="popular">Most Popular</option>
+                        <option value="fastest">Fastest</option>
+                        <option value="cheapest">Cheapest</option>
+                        <option value="rating">Highest Rating</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button id="searchRoutesBtn" class="btn-primary" style="width: 100%;">
+                <i class="fas fa-search"></i> Search Routes
+            </button>
+        </section>
+
+        <!-- Routes Grid -->
+        <section class="card">
+            <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2 class="section-title">
+                    <i class="fas fa-route"></i> Available Routes
+                </h2>
+                <div class="results-count">
+                    Showing <span id="resultsCount">12</span> routes
+                </div>
+            </div>
+            
+            <div class="routes-grid" id="routesContainer">
+                <!-- Route 1 -->
+                <div class="route-card-large">
+                    <div class="route-header">
+                        <div class="route-number">Route 125</div>
+                        <h3 class="route-title">CBD → Rongai</h3>
+                        <div class="route-subtitle">Direct route via Mombasa Road</div>
+                    </div>
+                    
+                    <div class="route-content">
+                        <div class="route-info-row">
+                            <div class="info-item">
+                                <span class="info-label">Travel Time</span>
+                                <span class="info-value">45-60 min</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Distance</span>
+                                <span class="info-value">18 km</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Fare</span>
+                                <span class="info-value">KES 80-100</span>
+                            </div>
+                        </div>
+                        
+                        <div class="route-info-row">
+                            <div class="info-item">
+                                <span class="info-label">Frequency</span>
+                                <span class="info-value">5-10 min</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Peak Hours</span>
+                                <span class="info-value">6-9 AM, 5-8 PM</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Rating</span>
+                                <span class="info-value">4.5/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="route-stops">
+                            <div class="stops-title">Major Stops:</div>
+                            <div class="stops-list">
+                                <span class="stop-tag">Railways</span>
+                                <span class="stop-tag">Nyayo Stadium</span>
+                                <span class="stop-tag">Bomas</span>
+                                <span class="stop-tag">Karen</span>
+                                <span class="stop-tag">Rongai Town</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="route-footer">
+                        <div class="route-companies">
+                            <span class="company-tag">Super Metro</span>
+                            <span class="company-tag">City Shuttle</span>
+                        </div>
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                </div>
+                
+                <!-- Route 2 -->
+                <div class="route-card-large">
+                    <div class="route-header">
+                        <div class="route-number">Route 100</div>
+                        <h3 class="route-title">CBD → Thika</h3>
+                        <div class="route-subtitle">Via Thika Superhighway</div>
+                    </div>
+                    
+                    <div class="route-content">
+                        <div class="route-info-row">
+                            <div class="info-item">
+                                <span class="info-label">Travel Time</span>
+                                <span class="info-value">60-90 min</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Distance</span>
+                                <span class="info-value">42 km</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Fare</span>
+                                <span class="info-value">KES 100-120</span>
+                            </div>
+                        </div>
+                        
+                        <div class="route-info-row">
+                            <div class="info-item">
+                                <span class="info-label">Frequency</span>
+                                <span class="info-value">10-15 min</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Peak Hours</span>
+                                <span class="info-value">7-10 AM, 4-7 PM</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Rating</span>
+                                <span class="info-value">4.2/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="route-stops">
+                            <div class="stops-title">Major Stops:</div>
+                            <div class="stops-list">
+                                <span class="stop-tag">Koja</span>
+                                <span class="stop-tag">Kasarani</span>
+                                <span class="stop-tag">Ruiru</span>
+                                <span class="stop-tag">Juja</span>
+                                <span class="stop-tag">Thika Town</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="route-footer">
+                        <div class="route-companies">
+                            <span class="company-tag">Forward Travellers</span>
+                            <span class="company-tag">Metrotrans</span>
+                        </div>
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                </div>
+                
+                <!-- Route 3 -->
+                <div class="route-card-large">
+                    <div class="route-header">
+                        <div class="route-number">Route 8</div>
+                        <h3 class="route-title">CBD → Kitengela</h3>
+                        <div class="route-subtitle">Via Mombasa Road & Namanga Road</div>
+                    </div>
+                    
+                    <div class="route-content">
+                        <div class="route-info-row">
+                            <div class="info-item">
+                                <span class="info-label">Travel Time</span>
+                                <span class="info-value">40-50 min</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Distance</span>
+                                <span class="info-value">25 km</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Fare</span>
+                                <span class="info-value">KES 70-90</span>
+                            </div>
+                        </div>
+                        
+                        <div class="route-info-row">
+                            <div class="info-item">
+                                <span class="info-label">Frequency</span>
+                                <span class="info-value">5-8 min</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Peak Hours</span>
+                                <span class="info-value">6:30-9 AM, 5-7:30 PM</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Rating</span>
+                                <span class="info-value">4.0/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="route-stops">
+                            <div class="stops-title">Major Stops:</div>
+                            <div class="stops-list">
+                                <span class="stop-tag">Railways</span>
+                                <span class="stop-tag">Imara Daima</span>
+                                <span class="stop-tag">Athi River</span>
+                                <span class="stop-tag">Kitengela Town</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="route-footer">
+                        <div class="route-companies">
+                            <span class="company-tag">Lothian Shuttle</span>
+                            <span class="company-tag">Metrotrans</span>
+                        </div>
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                </div>
+                
+                <!-- Route 4 -->
+                <div class="route-card-large">
+                    <div class="route-header">
+                        <div class="route-number">Route 24</div>
+                        <h3 class="route-title">CBD → Westlands</h3>
+                        <div class="route-subtitle">Via Waiyaki Way</div>
+                    </div>
+                    
+                    <div class="route-content">
+                        <div class="route-info-row">
+                            <div class="info-item">
+                                <span class="info-label">Travel Time</span>
+                                <span class="info-value">20-40 min</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Distance</span>
+                                <span class="info-value">8 km</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Fare</span>
+                                <span class="info-value">KES 50-70</span>
+                            </div>
+                        </div>
+                        
+                        <div class="route-info-row">
+                            <div class="info-item">
+                                <span class="info-label">Frequency</span>
+                                <span class="info-value">2-5 min</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Peak Hours</span>
+                                <span class="info-value">All day</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Rating</span>
+                                <span class="info-value">4.3/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="route-stops">
+                            <div class="stops-title">Major Stops:</div>
+                            <div class="stops-list">
+                                <span class="stop-tag">Odeon</span>
+                                <span class="stop-tag">Westgate</span>
+                                <span class="stop-tag">Sarit</span>
+                                <span class="stop-tag">Westlands</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="route-footer">
+                        <div class="route-companies">
+                            <span class="company-tag">Various Shuttles</span>
+                        </div>
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                </div>
+                
+                <!-- Route 5 -->
+                <div class="route-card-large">
+                    <div class="route-header">
+                        <div class="route-number">Route 33</div>
+                        <h3 class="route-title">CBD → Kasarani</h3>
+                        <div class="route-subtitle">Via Thika Road</div>
+                    </div>
+                    
+                    <div class="route-content">
+                        <div class="route-info-row">
+                            <div class="info-item">
+                                <span class="info-label">Travel Time</span>
+                                <span class="info-value">30-50 min</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Distance</span>
+                                <span class="info-value">15 km</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Fare</span>
+                                <span class="info-value">KES 60-80</span>
+                            </div>
+                        </div>
+                        
+                        <div class="route-info-row">
+                            <div class="info-item">
+                                <span class="info-label">Frequency</span>
+                                <span class="info-value">3-7 min</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Peak Hours</span>
+                                <span class="info-value">7-9 AM, 5-7 PM</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Rating</span>
+                                <span class="info-value">4.1/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="route-stops">
+                            <div class="stops-title">Major Stops:</div>
+                            <div class="stops-list">
+                                <span class="stop-tag">Koja</span>
+                                <span class="stop-tag">Muthaiga</span>
+                                <span class="stop-tag">Kasarani Mall</span>
+                                <span class="stop-tag">Mwiki</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="route-footer">
+                        <div class="route-companies">
+                            <span class="company-tag">Atomic Shuttle</span>
+                            <span class="company-tag">City Shuttle</span>
+                        </div>
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                </div>
+                
+                <!-- Route 6 -->
+                <div class="route-card-large">
+                    <div class="route-header">
+                        <div class="route-number">Route 42</div>
+                        <h3 class="route-title">CBD → Karen</h3>
+                        <div class="route-subtitle">Via Lang'ata Road</div>
+                    </div>
+                    
+                    <div class="route-content">
+                        <div class="route-info-row">
+                            <div class="info-item">
+                                <span class="info-label">Travel Time</span>
+                                <span class="info-value">35-55 min</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Distance</span>
+                                <span class="info-value">16 km</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Fare</span>
+                                <span class="info-value">KES 70-90</span>
+                            </div>
+                        </div>
+                        
+                        <div class="route-info-row">
+                            <div class="info-item">
+                                <span class="info-label">Frequency</span>
+                                <span class="info-value">8-12 min</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Peak Hours</span>
+                                <span class="info-value">6:30-9 AM, 5-7 PM</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Rating</span>
+                                <span class="info-value">4.4/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="route-stops">
+                            <div class="stops-title">Major Stops:</div>
+                            <div class="stops-list">
+                                <span class="stop-tag">Odeon</span>
+                                <span class="stop-tag">Nyayo Stadium</span>
+                                <span class="stop-tag">Lang'ata</span>
+                                <span class="stop-tag">Karen Centre</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="route-footer">
+                        <div class="route-companies">
+                            <span class="company-tag">City Shuttle</span>
+                        </div>
+                        <button class="view-details-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="page-btn" id="prevPage">
+                    <i class="fas fa-chevron-left"></i> Previous
+                </button>
+                
+                <div class="page-numbers">
+                    <span class="page-number active">1</span>
+                    <span class="page-number">2</span>
+                    <span class="page-number">3</span>
+                    <span class="page-number">4</span>
+                    <span class="page-number">5</span>
+                </div>
+                
+                <button class="page-btn" id="nextPage">
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Popular Zones -->
+        <section class="popular-zones card">
+            <h2 class="section-title">
+                <i class="fas fa-map-marker-alt"></i> Popular Zones
+            </h2>
+            <p class="section-subtitle">Find routes by Nairobi zones and neighborhoods</p>
+            
+            <div class="zones-grid">
+                <a href="#" class="zone-card">
+                    <div class="zone-icon">
+                        <i class="fas fa-city"></i>
+                    </div>
+                    <h3>CBD & Central</h3>
+                    <div class="zone-count">50+ routes</div>
+                </a>
+                
+                <a href="#" class="zone-card">
+                    <div class="zone-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3>Westlands & Parklands</h3>
+                    <div class="zone-count">25+ routes</div>
+                </a>
+                
+                <a href="#" class="zone-card">
+                    <div class="zone-icon">
+                        <i class="fas fa-subway"></i>
+                    </div>
+                    <h3>Thika Road Corridor</h3>
+                    <div class="zone-count">30+ routes</div>
+                </a>
+                
+                <a href="#" class="zone-card">
+                    <div class="zone-icon">
+                        <i class="fas fa-road"></i>
+                    </div>
+                    <h3>Mombasa Road Corridor</h3>
+                    <div class="zone-count">35+ routes</div>
+                </a>
+                
+                <a href="#" class="zone-card">
+                    <div class="zone-icon">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <h3>Lang'ata & Karen</h3>
+                    <div class="zone-count">20+ routes</div>
+                </a>
+                
+                <a href="#" class="zone-card">
+                    <div class="zone-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <h3>Eastlands</h3>
+                    <div class="zone-count">40+ routes</div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Route Map -->
+        <section class="map-section card">
+            <h2 class="section-title">
+                <i class="fas fa-map"></i> Nairobi Route Map
+            </h2>
+            <p class="section-subtitle">Visual overview of major transport routes in Nairobi</p>
+            
+            <div class="map-container">
+                <div class="map-overlay">
+                    <div class="map-placeholder">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <h3>Interactive Route Map</h3>
+                        <p>Coming soon: Click on routes to see details</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tips Section -->
+        <section class="card">
+            <h2 class="section-title">
+                <i class="fas fa-lightbulb"></i> Route Tips
+            </h2>
+            
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>Peak Hours</h3>
+                    <p>Avoid travel between 7-9 AM and 5-7 PM for faster journeys.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <h3>Fare Advice</h3>
+                    <p>Always confirm fare before boarding. Have exact change ready.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Safety Tips</h3>
+                    <p>Use registered shuttles and avoid traveling alone at night.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Mobile Apps</h3>
+                    <p>Download our app for real-time updates and route notifications.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="safarihub-logo.jpeg" alt="Safarihub Logo" width="40" height="40">
+                        <span>Safarihub</span>
+                    </div>
+                    <p class="footer-description">
+                        Your trusted guide to Nairobi's transport system. Find routes, fares, and transport information quickly and easily.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="routes.html">Routes</a></li>
+                        <li><a href="companies.html">Companies</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>                                   
+                </div>
+
+
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p>Email:
+                        <a href="mailto:contact@safarihub.com">contact@safarihub.com</a>
+                    </p>
+                    <p>Phone:
+                        <a href="tel:+254700000000">+254 700 000 000</a>
+                    </p>
+                    <p>Address:
+                        123 Nairobi St, Nairobi, Kenya
+                    </p>
+                </div>
+            </div>  
+            <div class="footer-bottom">
+                &copy; 2024 Safarihub. All rights reserved.                     
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

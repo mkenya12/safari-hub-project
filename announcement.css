@@ -1,0 +1,26 @@
+.announcement-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.announcement-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    background: var(--light-gray);
+}
+
+.dark-mode .announcement-item {
+    background: #404040;
+}
+
+.announcement-item i {
+    font-size: 1.5rem;
+    margin-top: 0.2rem;
+}
+
+.announcement-item.warning { border-left: 4px solid var(--warning); }
+.announcement-item.info { border-left: 4px solid var(--secondary); }
+.announcement-item.success { border-left: 4px solid var(--success); }
