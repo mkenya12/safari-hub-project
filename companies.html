@@ -1,133 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Transport Companies - Safarihub</title>
- <link
-        rel="stylesheet"
-        href="companies.css">
-        <link rel="stylesheet" href="global.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safarihub | Transport Companies</title>
+
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="companies.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/jpeg" href="safarihub-logo.jpeg">
 </head>
 <body>
+<header class="header">
+    <div class="container">
+        <div class="navbar">
 
-<header>
-    <h1>Safarihub</h1>
-    <nav>
-        <a href="index.html">Home</a> |
-        <a href="routes.html">Popular Routes</a> |
-        <a href="companies.html">Companies</a> |
-        <a href="announcements.html">Announcements</a> |
-        <a href="map.html">Map View</a> |
-        <a href="about.html">About</a> |
-        <a href="contact.html">Contact</a>
-    </nav>
-    <hr>
+            <div class="logo">
+                <img src="safarihub-logo.jpeg" alt="Safarihub Logo" width="40" height="40">
+                <span class="logo-text">Safarihub</span>
+            </div>
+
+            <button class="menu-toggle" aria-label="Toggle navigation menu">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav class="nav-links">
+                <a href="index.html">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="routes.html">
+                    <i class="fas fa-route"></i> Routes
+                </a>
+                <a href="companies.html" class="active">
+                    <i class="fas fa-bus"></i> Companies
+                </a>
+                <a href="about.html">
+                    <i class="fas fa-info-circle"></i> About
+                </a>
+                <a href="contact.html">
+                    <i class="fas fa-envelope"></i> Contact
+                </a>
+            </nav>
+
+            <button id="darkModeToggle" class="dark-toggle" aria-label="Toggle dark mode">
+                <i class="fas fa-moon"></i>
+                <span>Dark Mode</span>
+            </button>
+
+        </div>
+    </div>
 </header>
+<section class="page-hero">
+    <div class="container">
+        <h1>Transport Companies</h1>
+        <p>Trusted matatu & shuttle operators across Nairobi</p>
+    </div>
+</section>
+<main class="container main-content">
 
-<main>
-    <h2>Transport Companies</h2>
+    <section class="companies-grid">
 
-    <!-- Atomic Shuttle -->
-    <section>
-        <h3>Atomic Shuttle (A)</h3>
-        <p>Rating: ★★★★☆</p>
-        <p>12 Vehicles</p>
-        <h4>Fleet</h4>
-        <table border="1" cellpadding="5">
-            <thead>
-                <tr>
-                    <th>Plate Number</th>
-                    <th>Type</th>
-                    <th>Seats</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>KDK 123A</td>
-                    <td>Bus</td>
-                    <td>30</td>
-                </tr>
-                <tr>
-                    <td>KDK 124B</td>
-                    <td>Van</td>
-                    <td>14</td>
-                </tr>
-                <tr>
-                    <td>KDK 125C</td>
-                    <td>Mini Bus</td>
-                    <td>20</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-    <hr>
+        <div class="company-card">
+            <i class="fas fa-bus"></i>
+            <h3>Atomic Shuttle</h3>
+            <p>Reliable CBD–Rongai & Ngong routes with modern buses.</p>
+        </div>
 
-    <!-- Super Metro -->
-    <section>
-        <h3>Super Metro (S)</h3>
-        <p>Rating: ★★★☆☆</p>
-        <p>15 Vehicles</p>
-        <h4>Fleet</h4>
-        <table border="1" cellpadding="5">
-            <thead>
-                <tr>
-                    <th>Plate Number</th>
-                    <th>Type</th>
-                    <th>Seats</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>KSM 101A</td>
-                    <td>Bus</td>
-                    <td>40</td>
-                </tr>
-                <tr>
-                    <td>KSM 102B</td>
-                    <td>Van</td>
-                    <td>14</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-    <hr>
+        <div class="company-card">
+            <i class="fas fa-city"></i>
+            <h3>City Shuttle</h3>
+            <p>Affordable city transport with high-frequency service.</p>
+        </div>
 
-    <!-- City Shuttle -->
-    <section>
-        <h3>City Shuttle (C)</h3>
-        <p>Rating: ★★★★☆</p>
-        <p>10 Vehicles</p>
-        <h4>Fleet</h4>
-        <table border="1" cellpadding="5">
-            <thead>
-                <tr>
-                    <th>Plate Number</th>
-                    <th>Type</th>
-                    <th>Seats</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>KCS 201A</td>
-                    <td>Van</td>
-                    <td>14</td>
-                </tr>
-                <tr>
-                    <td>KCS 202B</td>
-                    <td>Mini Bus</td>
-                    <td>20</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="company-card">
+            <i class="fas fa-route"></i>
+            <h3>Embassava</h3>
+            <p>Known for speed, comfort, and experienced drivers.</p>
+        </div>
+
+        <div class="company-card">
+            <i class="fas fa-road"></i>
+            <h3>Lothian</h3>
+            <p>Serving major highways with consistent schedules.</p>
+        </div>
+
+        <div class="company-card">
+            <i class="fas fa-bus-alt"></i>
+            <h3>Super Metro</h3>
+            <p>One of Nairobi’s largest operators with clean buses.</p>
+        </div>
+
+        <div class="company-card">
+            <i class="fas fa-van-shuttle"></i>
+            <h3>Shuttles</h3>
+            <p>Short-distance shuttles for estates and CBD access.</p>
+        </div>
+
+        <div class="company-card">
+            <i class="fas fa-arrow-right"></i>
+            <h3>Forward Travels</h3>
+            <p>Long-distance and intercity travel specialists.</p>
+        </div>
+
     </section>
 
 </main>
 
-<footer>
-    <hr>
-    <p>© 2025 Safarihub. All Rights Reserved.</p>
-</footer>
-
 </body>
 </html>
+

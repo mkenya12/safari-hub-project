@@ -3,89 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Safarihub</title>
+    <title>Safarihub | Login</title>
 
+    <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <link rel="icon" type="image/jpeg" href="safarihub-logo.jpeg">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-   
-    <header class="header">
-        <div class="container">
-            <div class="navbar">
-                <div class="logo">
-                    <img src="safarihub-logo.jpeg" alt="Safarihub Logo" width="40" height="40">
-                    <span class="logo-text">Safarihub</span>
-                </div>
+<section class="login-hero">
+    <div class="login-card">
 
-                <nav class="nav-links">
-                    <a href="index.html"><i class="fas fa-home"></i> Home</a>
-                    <a href="register.html"><i class="fas fa-user-plus"></i> Sign Up</a>
-                </nav>
-            </div>
+        <div class="login-header">
+            <img src="safarihub-logo.jpeg" alt="Safarihub Logo">
+            <h1>Welcome Back</h1>
+            <p>Login to continue your journey</p>
         </div>
-    </header>
 
-    
-    <main class="container main-content">
-        <section class="card auth-card">
-            <h2 class="section-title">
-                <i class="fas fa-lock"></i> Login
-            </h2>
+        <form class="login-form">
 
-            <p class="auth-text">
-                Sign in to access your Safarihub dashboard
-            </p>
-
-            <div id="login-error" class="login-error hidden">
-                <i class="fas fa-exclamation-circle"></i>
-                Invalid email or password
+            <div class="form-group">
+                <label>Email Address</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" placeholder="you@example.com" required>
+                </div>
             </div>
 
-            <form id="login-form">
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" placeholder="you@example.com" required>
+            <div class="form-group">
+                <label>Password</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="••••••••" required>
                 </div>
-
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="••••••••" required>
-                </div>
-
-                <button type="submit" class="btn-primary full-width">
-                    <i class="fas fa-sign-in-alt"></i> Login
-                </button>
-            </form>
-
-            <div class="auth-links">
-                <p>Don’t have an account? <a href="register.html">Create one</a></p>
-                <p><a href="index.html">← Back to Home</a></p>
             </div>
-        </section>
-    </main>
 
-    <script>
-        const form = document.getElementById('login-form');
-        const errorBox = document.getElementById('login-error');
+            <div class="form-options">
+                <label>
+                    <input type="checkbox"> Remember me
+                </label>
+                <a href="#">Forgot password?</a>
+            </div>
 
-        form.addEventListener('submit', e => {
-            e.preventDefault();
+            <button type="submit" class="login-btn">
+                <i class="fas fa-sign-in-alt"></i>
+                Login
+            </button>
 
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+        </form>
 
-            
-            if (email === "test@safarihub.com" && password === "123456") {
-                localStorage.setItem("loggedIn", "true");
-                window.location.href = "index.html";
-            } else {
-                errorBox.classList.remove("hidden");
-            }
-        });
-    </script>
+        <div class="login-footer">
+            <p>Don’t have an account?</p>
+            <a href="register.html">Create Account</a>
+        </div>
+
+    </div>
+</section>
 
 </body>
 </html>
